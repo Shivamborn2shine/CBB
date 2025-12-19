@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Moments | A Digital Scrapbook</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Background Noise Texture -->
+    <div class="bg-noise"></div>
+
+    <header class="hero">
+        <div class="hero-content">
+            <h1 class="bounce-in">Our Memories</h1>
+            <p class="fade-in">"Collect moments, not things."</p>
+        </div>
+        <div class="scroll-indicator">
+            <i class="fa-solid fa-chevron-down"></i>
+        </div>
+    </header>
+
+    <main class="gallery-container">
+        <!-- Gallery Grid -->
+        <div class="gallery" id="gallery">
+            <!-- Items will be injected here or hardcoded below -->
+            
+            <!-- Item 1: Photo -->
+            <div class="scrapbook-item" style="--rotation: -2deg;">
+                <div class="tape-strip"></div>
+                <div class="media-wrapper">
+                    <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=2459&auto=format&fit=crop" alt="Smiling girl" loading="lazy">
+                </div>
+                <div class="caption">
+                    <span class="handwriting">That sunny day ☀️</span>
+                    <span class="date">Oct 12, 2023</span>
+                </div>
+            </div>
+
+            <!-- Item 2: Vertical Photo -->
+            <div class="scrapbook-item" style="--rotation: 3deg;">
+                <div class="tape-strip"></div>
+                <div class="media-wrapper">
+                    <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=2787&auto=format&fit=crop" alt="Portrait" loading="lazy">
+                </div>
+                <div class="caption">
+                    <span class="handwriting">Beautiful smile</span>
+                </div>
+            </div>
+
+            <!-- Item 3: Video Placeholder -->
+            <div class="scrapbook-item video-item" style="--rotation: -1deg;">
+                <div class="tape-strip"></div>
+                <div class="media-wrapper">
+                    <video loop muted playsinline poster="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?q=80&w=2670&auto=format&fit=crop">
+                         <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" type="video/mp4">
+                    </video>
+                    <div class="play-icon"><i class="fa-solid fa-play"></i></div>
+                </div>
+                <div class="caption">
+                    <span class="handwriting">Dancing in the rain 🌧️</span>
+                </div>
+            </div>
+
+             <!-- Item 4: Photo -->
+             <div class="scrapbook-item" style="--rotation: 2deg;">
+                <div class="tape-strip"></div>
+                <div class="media-wrapper">
+                    <img src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?q=80&w=2787&auto=format&fit=crop" alt="Laughing" loading="lazy">
+                </div>
+                <div class="caption">
+                    <span class="handwriting">Best laugh ever</span>
+                </div>
+            </div>
+            
+             <!-- Item 5: Small Note -->
+             <div class="scrapbook-item note-item" style="--rotation: -4deg;">
+                <div class="pin"></div>
+                <div class="note-content">
+                    <p class="handwriting">"You are my favorite distraction."</p>
+                    <p class="handwriting" style="text-align: right;">- ❤️</p>
+                </div>
+            </div>
+
+            <!-- Item 6: Photo -->
+            <div class="scrapbook-item" style="--rotation: 1deg;">
+                <div class="tape-strip"></div>
+                <div class="media-wrapper">
+                    <img src="https://images.unsplash.com/photo-1517409241018-7b9cda47b567?q=80&w=2669&auto=format&fit=crop" alt="Coffee date" loading="lazy">
+                </div>
+                <div class="caption">
+                    <span class="handwriting">Coffee dates ☕</span>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Lightbox Modal -->
+    <div class="lightbox" id="lightbox">
+        <div class="lightbox-content">
+            <button class="close-btn"><i class="fa-solid fa-xmark"></i></button>
+            <div class="lightbox-media-container">
+                <!-- Media injected here -->
+            </div>
+            <div class="lightbox-caption"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
