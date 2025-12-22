@@ -1,59 +1,66 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>AR Sketch Overlay</title>
+    <!-- A-Frame -->
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <!-- AR.js for A-Frame -->
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 
-<body>
-    <div class="app-container">
-        <!-- Camera Feed -->
-        <video id="camera-feed" autoplay playsinline muted></video>
+<body style="margin: 0; overflow: hidden;">
 
-        <!-- Sketch Overlay Container -->
-        <div id="overlay-container">
-            <img id="sketch-overlay" src="placeholder_sketch.png" alt="Sketch Overlay">
+    <!-- UI Overlay for controls -->
+    <div class="ui-overlay">
+        <div class="header">
+            <h1>AR Sketch</h1>
+            <p>Point camera at the <b>Hiro Marker</b></p>
         </div>
 
-        <!-- UI Controls -->
-        <div class="controls-panel">
-            <div class="header">
-                <h1>AR Sketch</h1>
-                <div class="status-indicator" id="camera-status">Checking Camera...</div>
-            </div>
-
+        <div class="controls">
             <div class="control-group">
-                <label for="opacity-slider">Opacity</label>
-                <input type="range" id="opacity-slider" min="0" max="100" value="50">
+                <label>Opacity</label>
+                <input type="range" id="opacity-slider" min="0" max="1" step="0.1" value="0.7">
             </div>
-
             <div class="control-group">
-                <label for="scale-slider">Scale</label>
-                <input type="range" id="scale-slider" min="10" max="300" value="100">
+                <label>Scale</label>
+                <input type="range" id="scale-slider" min="0.1" max="5" step="0.1" value="1">
             </div>
-
             <div class="control-group">
-                <label for="rotation-slider">Rotate</label>
-                <input type="range" id="rotation-slider" min="0" max="360" value="0">
-            </div>
-
-            <div class="actions">
-                <label class="btn-primary">
-                    Upload Sketch
-                    <input type="file" id="upload-sketch" accept="image/*" hidden>
-                </label>
-                <button id="freeze-btn" class="btn-secondary">Freeze Camera</button>
-            </div>
-
-            <div class="instructions">
-                <p>Drag to move • Pinch to zoom</p>
+                <label>Rotation</label>
+                <input type="range" id="rotation-slider" min="0" max="360" step="10" value="270"> /* Default 270 might
+                align better */
             </div>
         </div>
     </div>
+
+    <!-- AR Scene -->
+    <!-- embedded arjs ensures it works on mobile efficiently -->
+    <a-scene embedded
+        arjs="sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 3x3;">
+
+        <!-- Marker Handler: preset='hiro' is the standard default marker -->
+        <!-- To use your custom QR:
+           1. Go to https://jeromeetienne.github.io/AR.js/three.js/examples/marker-training/examples/generator.html
+           2. Upload 'reference_qr.png'
+           3. Download the .patt file
+           4. Save it as 'custom.patt' in this folder
+           5. Change below: <a-marker type="pattern" url="custom.patt"> 
+      -->
+        <a-marker preset="hiro" id="marker-root">
+            <!-- The Overlay Image -->
+            <!-- rotation="-90 0 0" forces it to lie flat on the paper -->
+            <a-image id="overlay-entity" src="overlay_image.jpg" position="0 0 0" rotation="-90 0 0" scale="1 1 1"
+                opacity="0.7">
+            </a-image>
+        </a-marker>
+
+        <!-- Camera -->
+        <a-entity camera></a-entity>
+    </a-scene>
 
     <script src="script.js"></script>
 </body>
