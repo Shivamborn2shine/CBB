@@ -21,15 +21,16 @@
             overflow: hidden;
         }
 
-        /* CRITICAL: Ensure Canvas is above Video */
+        /* Force canvas to be secure */
         .a-canvas {
             z-index: 2 !important;
             position: absolute !important;
-            top: 0;
-            left: 0;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100% !important;
+            height: 100% !important;
         }
 
-        /* Video is usually z-index -2 by default in A-Frame, but MindAR might change it. */
         video {
             z-index: 1 !important;
         }
@@ -55,7 +56,7 @@
     </div>
 
     <a-scene mindar-image="imageTargetSrc: marker.mind; uiError:no; uiLoading:no;" embedded
-        renderer="colorManagement: true, alpha: true" vr-mode-ui="enabled: false"
+        renderer="colorManagement: true; alpha: true; logarithmicDepthBuffer: true;" vr-mode-ui="enabled: false"
         device-orientation-permission-ui="enabled: false">
 
         <!-- Assets -->
@@ -65,19 +66,22 @@
 
         <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
-        <!-- LIGHTING (Important for 3D visibility) -->
-        <a-light type="ambient" color="#FFF"></a-light>
-        <a-light type="directional" position="0 10 5" intensity="1.5"></a-light>
-
         <!-- Image Target (targetIndex: 0) -->
         <a-entity id="target-entity" mindar-image-target="targetIndex: 0">
 
-            <!-- Debug Cube (Spinning & Bright Green) -->
-            <a-box color="#00FF00" position="0 0 0.2" scale="0.5 0.5 0.5" opacity="0.8"
-                animation="property: rotation; to: 360 360 0; loop: true; dur: 2000"></a-box>
+            <!-- DEBUG GROUP: Multiple objects at different scales/positions -->
 
-            <!-- The Image Overlay -->
-            <a-plane src="#overlay" position="0 0 0" height="1" width="1" rotation="0 0 0"
+            <!-- 1. Center Flat Red Plane (Base) -->
+            <a-plane color="red" shader="flat" width="1" height="1" position="0 0 0" opacity="0.5"></a-plane>
+
+            <!-- 2. Floating Blue Box (0.5 units up) -->
+            <a-box color="blue" shader="flat" position="0 0 0.5" scale="0.2 0.2 0.2"></a-box>
+
+            <!-- 3. Giant Yellow Frame (2x size) -->
+            <a-ring color="yellow" shader="flat" radius-inner="1.0" radius-outer="1.1" position="0 0 0.1"></a-ring>
+
+            <!-- The Real Image Overlay -->
+            <a-plane src="#overlay" position="0 0 0.05" height="1" width="1" rotation="0 0 0"
                 material="transparent: true; side: double;"></a-plane>
 
         </a-entity>
@@ -92,7 +96,7 @@
         target.addEventListener("targetFound", event => {
             console.log("Target Found");
             status.innerText = "Target Found!";
-            status.style.color = "#4ade80"; // Green
+            status.style.color = "#4ade80";
         });
 
         target.addEventListener("targetLost", event => {
@@ -101,11 +105,12 @@
             status.style.color = "white";
         });
 
-        // Debug Loop to check A-Frame internal visibility
+        // Debug Loop
         setInterval(() => {
             if (target) {
                 const isVisible = target.getAttribute('visible');
-                visDebug.innerText = isVisible;
+                const pos = target.getAttribute('position');
+                visDebug.innerText = `Vis:${isVisible} Pos:${pos?.x?.toFixed(2)},${pos?.y?.toFixed(2)},${pos?.z?.toFixed(2)}`;
             }
         }, 500);
 
