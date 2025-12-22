@@ -1,288 +1,212 @@
 :root {
-    --bg-color: #fcfbf7; /* Creamy paper */
-    --primary-color: #2c3e50;
-    --accent-color: #e76f51; /* Muted coral */
-    --text-color: #333;
-    --paper-shadow: 0 4px 6px rgba(0,0,0,0.1), 0 1px 3px rgba(0,0,0,0.08);
-    --font-hand: 'Caveat', cursive;
-    --font-body: 'Outfit', sans-serif;
+    --primary-color: #6366f1;
+    --primary-hover: #4f46e5;
+    --bg-overlay: rgba(15, 23, 42, 0.6);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --text-color: #f8fafc;
+    --text-muted: #94a3b8;
 }
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
 }
 
 body {
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    font-family: var(--font-body);
-    overflow-x: hidden;
-    min-height: 100vh;
+    font-family: 'Inter', sans-serif;
+    background-color: #000;
+    overflow: hidden;
+    /* Prevent scrolling */
+    height: 100vh;
+    width: 100vw;
 }
 
-/* Background Texture */
-.bg-noise {
-    position: fixed;
+.app-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Camera Feed */
+#camera-feed {
+    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    opacity: 0.05;
-    z-index: -1;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-    pointer-events: none;
+    object-fit: cover;
+    z-index: 1;
 }
 
-/* Hero Section */
-.hero {
-    height: 60vh;
+/* Overlay Container */
+#overlay-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
+    /* Let touches pass through to gesture handler if needed, usually we handle on container or body */
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
-    text-align: center;
-    padding: 2rem;
-    position: relative;
-    background: radial-gradient(circle at center, rgba(231, 111, 81, 0.1) 0%, transparent 70%);
+    overflow: hidden;
 }
 
-.hero h1 {
-    font-family: var(--font-hand);
-    font-size: 5rem;
-    color: var(--primary-color);
-    margin-bottom: 0.5rem;
-    text-shadow: 2px 2px 0px rgba(0,0,0,0.05);
+#sketch-overlay {
+    /* Initial size, will be controlled by JS */
+    width: 80%;
+    max-width: 500px;
+    opacity: 0.5;
+    transform-origin: center;
+    /* Enable pointer events for dragging if we attach listeners to the image */
+    pointer-events: auto;
+    cursor: grab;
 }
 
-.hero p {
-    font-size: 1.2rem;
-    color: #666;
-    letter-spacing: 1px;
-    text-transform: uppercase;
+#sketch-overlay:active {
+    cursor: grabbing;
 }
 
-.scroll-indicator {
+/* UI Controls */
+.controls-panel {
     position: absolute;
     bottom: 2rem;
-    font-size: 1.5rem;
-    color: var(--accent-color);
-    animation: bounce 2s infinite;
-}
-
-@keyframes bounce {
-    0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
-    40% {transform: translateY(-10px);}
-    60% {transform: translateY(-5px);}
-}
-
-/* Gallery Layout */
-.gallery-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 2rem;
-}
-
-.gallery {
-    columns: 3 300px;
-    column-gap: 2rem;
-}
-
-/* Scrapbook Item Card */
-.scrapbook-item {
-    break-inside: avoid;
-    margin-bottom: 2.5rem;
-    background: white;
-    padding: 1rem 1rem 3rem 1rem; /* Extra bottom padding for Polaroid look */
-    box-shadow: var(--paper-shadow);
-    transform: rotate(var(--rotation, 0deg));
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    position: relative;
-    width: 100%;
-    cursor: pointer;
-    border-radius: 2px;
-}
-
-.scrapbook-item:hover {
-    transform: scale(1.02) rotate(0deg) !important;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
-    z-index: 10;
-}
-
-/* Tape Effect */
-.tape-strip {
-    position: absolute;
-    top: -15px;
-    left: 50%;
-    transform: translateX(-50%) rotate(-2deg);
-    width: 100px;
-    height: 35px;
-    background-color: rgba(255, 255, 255, 0.6);
-    border: 1px solid rgba(0,0,0,0.05);
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    opacity: 0.8;
-    z-index: 5;
-    /* Jagged edges via css mask or just simple transparency */
-    backdrop-filter: blur(2px);
-}
-
-/* Pin Effect */
-.pin {
-    width: 20px;
-    height: 20px;
-    background: radial-gradient(circle at 30% 30%, #e76f51, #c0392b);
-    border-radius: 50%;
-    box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
-    position: absolute;
-    top: -10px;
     left: 50%;
     transform: translateX(-50%);
-    z-index: 5;
-}
-
-/* Media styling */
-.media-wrapper {
-    position: relative;
-    width: 100%;
-    overflow: hidden;
-    background: #eee;
-}
-
-.media-wrapper img, .media-wrapper video {
-    width: 100%;
-    height: auto;
-    display: block;
-    filter: sepia(10%) contrast(105%); /* Vintage feel */
-    transition: filter 0.3s ease;
-}
-
-.scrapbook-item:hover .media-wrapper img {
-    filter: sepia(0%) contrast(100%);
-}
-
-.play-icon {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: white;
-    font-size: 3rem;
-    opacity: 0.8;
-    text-shadow: 0 2px 10px rgba(0,0,0,0.5);
-    pointer-events: none;
-}
-
-/* Caption */
-.caption {
-    margin-top: 1rem;
-    text-align: center;
-    color: #444;
-}
-
-.handwriting {
-    font-family: var(--font-hand);
-    font-size: 1.8rem;
-    display: block;
-    line-height: 1.2;
-}
-
-.date {
-    font-size: 0.8rem;
-    color: #999;
-    margin-top: 0.2rem;
-    display: block;
-    font-family: var(--font-body);
-}
-
-/* Note Item */
-.note-item {
-    background: #fff9c4; /* Sticky note yellow */
-    padding: 2rem;
-    min-height: 200px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.note-content p {
-    font-size: 2rem;
-    color: #333;
-}
-
-/* Lightbox */
-.lightbox {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(44, 62, 80, 0.95);
-    z-index: 1000;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    opacity: 0;
-    pointer-events: none;
+    width: 90%;
+    max-width: 400px;
+    background: var(--bg-overlay);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 1.5rem;
+    z-index: 10;
+    color: var(--text-color);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
     transition: opacity 0.3s ease;
-    backdrop-filter: blur(5px);
 }
 
-.lightbox.active {
-    opacity: 1;
-    pointer-events: all;
+/* Hide controls when inactive? Maybe later. For now keep visible */
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
 }
 
-.lightbox-content {
-    max-width: 90%;
-    max-height: 90%;
-    position: relative;
+.header h1 {
+    font-size: 1.1rem;
+    font-weight: 600;
 }
 
-.lightbox-media-container img, .lightbox-media-container video {
-    max-width: 100%;
-    max-height: 80vh;
-    border-radius: 4px;
-    box-shadow: 0 5px 30px rgba(0,0,0,0.5);
+.status-indicator {
+    font-size: 0.8rem;
+    color: var(--text-muted);
 }
 
-.close-btn {
-    position: absolute;
-    top: -40px;
-    right: 0;
-    background: none;
-    border: none;
-    color: white;
-    font-size: 2rem;
+.status-indicator.active {
+    color: #4ade80;
+}
+
+.status-indicator.error {
+    color: #ef4444;
+}
+
+.control-group {
+    margin-bottom: 1rem;
+}
+
+.control-group label {
+    display: block;
+    font-size: 0.8rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-muted);
+}
+
+input[type="range"] {
+    width: 100%;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+    outline: none;
+    -webkit-appearance: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    background: var(--text-color);
+    border-radius: 50%;
     cursor: pointer;
-    transition: transform 0.2s;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
 }
 
-.close-btn:hover {
-    transform: rotate(90deg);
+.actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
 }
 
-.lightbox-caption {
+.btn-primary,
+.btn-secondary {
+    flex: 1;
+    padding: 0.75rem;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+    outline: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-primary {
+    background: var(--primary-color);
     color: white;
+}
+
+.btn-primary:hover {
+    background: var(--primary-hover);
+}
+
+.btn-secondary {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-color);
+}
+
+.btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.instructions {
     text-align: center;
     margin-top: 1rem;
-    font-family: var(--font-hand);
-    font-size: 2rem;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    opacity: 0.7;
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-    .hero h1 {
-        font-size: 3.5rem;
-    }
-    
-    .gallery {
-        columns: 2 200px;
-    }
-}
-
-@media (max-width: 480px) {
-    .gallery {
-        columns: 1 auto;
+/* Media Query for larger screens/tablets */
+@media (min-width: 768px) {
+    .controls-panel {
+        right: 2rem;
+        left: auto;
+        transform: none;
+        bottom: 2rem;
+        width: 320px;
     }
 }
