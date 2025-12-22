@@ -21,6 +21,19 @@
             overflow: hidden;
         }
 
+        /* CRITICAL: Ensure Canvas is above Video */
+        .a-canvas {
+            z-index: 2 !important;
+            position: absolute !important;
+            top: 0;
+            left: 0;
+        }
+
+        /* Video is usually z-index -2 by default in A-Frame, but MindAR might change it. */
+        video {
+            z-index: 1 !important;
+        }
+
         #debug-ui {
             position: absolute;
             top: 10px;
@@ -37,7 +50,8 @@
 
 <body>
     <div id="debug-ui">
-        Status: <span id="status">Initializing...</span>
+        Status: <span id="status">Initializing...</span><br>
+        Vis: <span id="vis-debug">?</span>
     </div>
 
     <a-scene mindar-image="imageTargetSrc: marker.mind; uiError:no; uiLoading:no;" embedded
@@ -51,11 +65,16 @@
 
         <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
+        <!-- LIGHTING (Important for 3D visibility) -->
+        <a-light type="ambient" color="#FFF"></a-light>
+        <a-light type="directional" position="0 10 5" intensity="1.5"></a-light>
+
         <!-- Image Target (targetIndex: 0) -->
         <a-entity id="target-entity" mindar-image-target="targetIndex: 0">
 
-            <!-- Debug Cube (Visible from all angles) -->
-            <a-box color="red" position="0 0 0" scale="0.5 0.5 0.5" opacity="0.5"></a-box>
+            <!-- Debug Cube (Spinning & Bright Green) -->
+            <a-box color="#00FF00" position="0 0 0.2" scale="0.5 0.5 0.5" opacity="0.8"
+                animation="property: rotation; to: 360 360 0; loop: true; dur: 2000"></a-box>
 
             <!-- The Image Overlay -->
             <a-plane src="#overlay" position="0 0 0" height="1" width="1" rotation="0 0 0"
@@ -68,6 +87,7 @@
     <script>
         const target = document.querySelector('#target-entity');
         const status = document.querySelector('#status');
+        const visDebug = document.querySelector('#vis-debug');
 
         target.addEventListener("targetFound", event => {
             console.log("Target Found");
@@ -80,6 +100,14 @@
             status.innerText = "Scanning...";
             status.style.color = "white";
         });
+
+        // Debug Loop to check A-Frame internal visibility
+        setInterval(() => {
+            if (target) {
+                const isVisible = target.getAttribute('visible');
+                visDebug.innerText = isVisible;
+            }
+        }, 500);
 
         document.querySelector('a-scene').addEventListener('arReady', () => {
             status.innerText = "AR Ready - Scan Target";
