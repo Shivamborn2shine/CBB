@@ -6,117 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>A Christmas Gift 🎄</title>
 
-    <style>
-        * {
-            box-sizing: border-box;
-            scroll-behavior: smooth;
-        }
-
-        body {
-            margin: 0;
-            font-family: 'Georgia', serif;
-            background: #ffffff;
-            color: #1f2933;
-        }
-
-        /* ---------- MOBILE CHRISTMAS EXPERIENCE ---------- */
-        #mobile-view {
-            display: none;
-            background:
-                radial-gradient(circle at top left, #fbeaea, transparent 40%),
-                radial-gradient(circle at bottom right, #e6f4ee, transparent 45%),
-                #ffffff;
-        }
-
-        .mobile-section {
-            padding: 30px 22px;
-            text-align: center;
-        }
-
-        /* COVER IMAGE */
-        .cover {
-            padding: 0;
-        }
-
-        .cover img {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-
-        .open-gift-wrapper {
-            padding: 24px;
-            background: #ffffff;
-        }
-
-        .open-gift-btn {
-            width: 100%;
-            padding: 16px;
-            font-size: 1.15rem;
-            border: none;
-            border-radius: 14px;
-            background: linear-gradient(135deg, #c1121f, #a30f1a);
-            color: #ffffff;
-            cursor: pointer;
-            font-weight: 600;
-            box-shadow: 0 12px 25px rgba(193, 18, 31, 0.35);
-        }
-
-        /* TEXT SECTIONS */
-        .line {
-            font-size: 1.5rem;
-            line-height: 1.6;
-            margin: 30px 0;
-        }
-
-        /* END SECTION */
-        .end {
-            margin-top: 40px;
-            padding-bottom: 60px;
-        }
-
-        .copy-btn {
-            width: 100%;
-            padding: 15px;
-            font-size: 1rem;
-            border-radius: 14px;
-            border: none;
-            background: linear-gradient(135deg, #2d6a4f, #1b4332);
-            color: #ffffff;
-            cursor: pointer;
-            margin-top: 20px;
-            box-shadow: 0 12px 25px rgba(45, 106, 79, 0.35);
-        }
-
-        .hint {
-            margin-top: 18px;
-            font-size: 0.95rem;
-            color: #475569;
-            line-height: 1.6;
-        }
-
-        /* ---------- DESKTOP EXPERIENCE ---------- */
-        #desktop-view {
-            display: none;
-            background: #f8f5f0;
-        }
-
-        .canva-wrapper {
-            width: 100%;
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .canva-wrapper iframe {
-            width: 90%;
-            height: 90%;
-            border: none;
-            border-radius: 14px;
-            box-shadow: 0 30px 60px rgba(63, 69, 81, 0.25);
-        }
-    </style>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
@@ -124,10 +14,10 @@
     <!-- 🎄 MOBILE VIEW -->
     <div id="mobile-view">
 
-        <!-- FULL-WIDTH PHOTO -->
+        <!-- COVER IMAGE -->
         <div class="cover">
-            <!-- MAKE SURE THIS PATH IS CORRECT -->
             <img src="mobile/christmas-cover.webp" alt="Christmas Memory">
+            <p class="cover-caption">Same Sketch with Colours</p>
         </div>
 
         <!-- OPEN GIFT BUTTON -->
@@ -156,14 +46,14 @@
             </div>
 
             <div class="mobile-section end">
-                <button class="copy-btn" id="copyLink">Copy link for laptop</button>
+                <p class="simple-hint">Open on your laptop for the full magic ✨</p>
 
-                <p class="hint">
-                    Either type<br>
-                    <strong>naisha.netlify.app</strong><br>
-                    in your laptop browser<br>
-                    or copy this link and open it there.
-                </p>
+                <button class="url-pill" id="copyLink">
+                    <span class="link-text">naisha.netlify.app</span>
+                    <span class="copy-label">COPY</span>
+                </button>
+
+                <p class="sub-hint">either type this URL on your laptop</p>
             </div>
 
         </div>
@@ -179,30 +69,7 @@
         </div>
     </div>
 
-    <!-- ---------- SCRIPT ---------- -->
-    <script>
-        const isMobile = window.innerWidth < 768;
-
-        const mobileView = document.getElementById("mobile-view");
-        const desktopView = document.getElementById("desktop-view");
-
-        if (isMobile) {
-            mobileView.style.display = "block";
-        } else {
-            desktopView.style.display = "block";
-        }
-
-        function openGift() {
-            document.getElementById("gift-content")
-                .scrollIntoView({ behavior: "smooth" });
-        }
-
-        document.getElementById("copyLink")?.addEventListener("click", () => {
-            navigator.clipboard.writeText(window.location.href);
-            alert("Link copied 🎄 Open it on your laptop");
-        });
-    </script>
-
+    <script src="js/script.js"></script>
 </body>
 
 </html>

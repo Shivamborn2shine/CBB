@@ -1,0 +1,191 @@
+* {
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    font-family: 'Georgia', serif;
+    background: #ffffff;
+    color: #1f2933;
+}
+
+/* ---------- MOBILE CHRISTMAS EXPERIENCE ---------- */
+#mobile-view {
+    display: none;
+    background-image: url('../mobile/christmas-bg.png');
+    background-size: cover;
+    background-position: center;
+    background-color: #ffffff;
+    /* Fallback */
+    min-height: 100vh;
+    padding: 0 0;
+    /* Background is the border, content inside */
+}
+
+/* Container to keep content away from the "frame" of branches */
+#gift-content {
+    display: none;
+    /* Hidden initially for reveal effect */
+    padding: 100px 30px;
+    /* Top padding to clear top branches, Side padding to clear side branches */
+    animation: fadeIn 2s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.mobile-section {
+    padding: 20px 0;
+    text-align: center;
+}
+
+/* COVER IMAGE */
+.cover {
+    display: block;
+    padding: 60px 20px 0;
+    /* Add padding to clear top branches */
+    text-align: center;
+}
+
+.cover img {
+    width: 100%;
+    max-width: 300px;
+    /* Limit size so it fits nicely */
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    border: 4px solid #ffffff;
+    /* White border to make it pop */
+}
+
+/* OPEN GIFT BUTTON */
+.open-gift-wrapper {
+    position: relative;
+    width: 80%;
+    margin: 40px auto 0;
+    /* Center horizontally with margin from top */
+    top: auto;
+    left: auto;
+    transform: none;
+    padding: 0;
+    background: transparent;
+}
+
+.open-gift-btn {
+    width: 100%;
+    padding: 18px;
+    font-size: 1.25rem;
+    border: 2px solid #ffffff;
+    border-radius: 50px;
+    /* Rounded pill shape */
+    background: linear-gradient(135deg, #d32f2f, #b71c1c);
+    /* Glossy Red */
+    color: #ffffff;
+    cursor: pointer;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    box-shadow: 0 10px 20px rgba(183, 28, 28, 0.4);
+    text-transform: uppercase;
+}
+
+/* TEXT */
+.line {
+    font-size: 1.5rem;
+    line-height: 1.6;
+    margin: 10px 0;
+    color: #2c3e50;
+    /* Dark text for contrast against white */
+    font-weight: 500;
+}
+
+/* END SECTION */
+.end {
+    margin-top: 20px;
+    padding-bottom: 60px;
+}
+
+.simple-hint {
+    font-size: 1.1rem;
+    color: #546e7a;
+    margin-bottom: 20px;
+    font-family: 'Georgia', serif;
+    font-style: italic;
+    opacity: 0.9;
+}
+
+.url-pill {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #ffffff;
+    border: 1px solid #dcdcdc;
+    padding: 12px 20px;
+    border-radius: 50px;
+    cursor: pointer;
+    width: 100%;
+    max-width: 320px;
+    margin: 0 auto;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    transition: all 0.2s ease;
+}
+
+.url-pill:active {
+    transform: scale(0.98);
+    background: #f5f5f5;
+}
+
+.link-text {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #2c3e50;
+    letter-spacing: 0.5px;
+}
+
+.copy-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #d32f2f;
+    /* Festive Red */
+    background: #ffebee;
+    padding: 6px 12px;
+    border-radius: 20px;
+    letter-spacing: 1px;
+}
+
+.sub-hint {
+    margin-top: 15px;
+    font-size: 0.95rem;
+    color: #607d8b;
+    font-family: 'Georgia', serif;
+    font-style: italic;
+}
+
+/* ---------- DESKTOP EXPERIENCE ---------- */
+#desktop-view {
+    display: none;
+    background: #f8f5f0;
+}
+
+.canva-wrapper {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.canva-wrapper iframe {
+    width: 90%;
+    height: 90%;
+    border: none;
+    border-radius: 14px;
+    box-shadow: 0 30px 60px rgba(63, 69, 81, 0.25);
+}
