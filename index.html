@@ -4,62 +4,89 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>How It All Started</title>
+    <title>Open Your Gift 🎄</title>
 
     <style>
         * {
             box-sizing: border-box;
+            scroll-behavior: smooth;
         }
 
         body {
             margin: 0;
-            background: #f8f5f0;
-            color: #2e2e2e;
-            font-family: Georgia, serif;
+            background: linear-gradient(180deg, #0b2b1e, #124734);
+            color: #ffffff;
+            font-family: 'Georgia', serif;
         }
 
-        /* ---------- MOBILE EXPERIENCE ---------- */
+        /* ---------- MOBILE CHRISTMAS EXPERIENCE ---------- */
         #mobile-view {
             display: none;
         }
 
         .mobile-slide {
             min-height: 100vh;
-            padding: 40px 20px;
+            padding: 30px 20px;
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
         }
 
+        /* First page (A4 photo) */
+        .cover {
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .cover img {
+            width: 90%;
+            max-width: 420px;
+            aspect-ratio: 1 / 1.414;
+            /* A4 ratio */
+            object-fit: cover;
+            border-radius: 14px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+            border: 4px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .gift-btn {
+            padding: 16px 32px;
+            font-size: 1.1rem;
+            border-radius: 40px;
+            border: none;
+            background: linear-gradient(135deg, #d62828, #b51717);
+            color: #fff;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            letter-spacing: 0.5px;
+        }
+
+        .gift-btn:hover {
+            transform: scale(1.05);
+        }
+
+        /* Text slides */
         .mobile-slide p {
-            font-size: 1.6rem;
+            font-size: 1.7rem;
             line-height: 1.6;
         }
 
-        .mobile-slide.end {
+        /* Ending */
+        .end {
             flex-direction: column;
             gap: 20px;
         }
 
-        button {
-            padding: 14px 24px;
-            font-size: 1rem;
-            border: none;
-            border-radius: 30px;
-            background: #2e2e2e;
-            color: #fff;
-            cursor: pointer;
-        }
-
         .hint {
             font-size: 0.9rem;
-            opacity: 0.7;
+            opacity: 0.75;
         }
 
         /* ---------- DESKTOP EXPERIENCE ---------- */
         #desktop-view {
             display: none;
+            background: #f8f5f0;
         }
 
         .canva-wrapper {
@@ -68,7 +95,6 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: #f8f5f0;
         }
 
         .canva-wrapper iframe {
@@ -78,41 +104,40 @@
             border-radius: 14px;
             box-shadow: 0 30px 60px rgba(63, 69, 81, 0.25);
         }
-
-        /* ---------- END NOTE ---------- */
-        .after-note {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: rgba(255, 255, 255, 0.95);
-            padding: 12px 18px;
-            border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-            font-size: 0.9rem;
-        }
     </style>
 </head>
 
 <body>
 
-    <!-- 📱 MOBILE EXPERIENCE -->
+    <!-- 🎄 MOBILE CHRISTMAS EXPERIENCE -->
     <div id="mobile-view">
 
-        <section class="mobile-slide">
-            <p>Some things aren’t meant to be rushed.</p>
+        <!-- COVER PAGE -->
+        <section class="mobile-slide cover">
+            <!-- Replace image path with your A4 photo -->
+            <img src="mobile/christmas-cover.webp" alt="Christmas Memory">
+            <button class="gift-btn" onclick="openGift()">🎁 Open your gift</button>
         </section>
 
-        <section class="mobile-slide">
-            <p>This is a collection of moments.</p>
+        <!-- MESSAGE 1 -->
+        <section class="mobile-slide" id="gift">
+            <p>Merry Christmas.</p>
         </section>
 
+        <!-- MESSAGE 2 -->
+        <section class="mobile-slide">
+            <p>This is something made slowly,<br>with a lot of care.</p>
+        </section>
+
+        <!-- MESSAGE 3 -->
         <section class="mobile-slide">
             <p>It deserves a bigger screen.</p>
         </section>
 
+        <!-- END -->
         <section class="mobile-slide end">
-            <p>The full story opens better on a laptop.</p>
-            <button id="copyLink">Copy link for desktop</button>
+            <p>The full gift opens on a laptop.</p>
+            <button class="gift-btn" id="copyLink">Copy link for desktop</button>
             <p class="hint">Open this link on a laptop or desktop browser.</p>
         </section>
 
@@ -124,10 +149,6 @@
             <iframe src="https://www.canva.com/design/DAG8bTK8pEA/luqgG5GRz3tKvMzRBZyJCw/view?embed" loading="lazy"
                 allowfullscreen allow="fullscreen">
             </iframe>
-        </div>
-
-        <div class="after-note">
-            If you’ve reached the end, sit with it for a moment.
         </div>
     </div>
 
@@ -144,9 +165,13 @@
             desktopView.style.display = "block";
         }
 
+        function openGift() {
+            document.getElementById("gift").scrollIntoView({ behavior: "smooth" });
+        }
+
         document.getElementById("copyLink")?.addEventListener("click", () => {
             navigator.clipboard.writeText(window.location.href);
-            alert("Link copied. Open it on a laptop.");
+            alert("Link copied. Open it on a laptop 🎄");
         });
     </script>
 
