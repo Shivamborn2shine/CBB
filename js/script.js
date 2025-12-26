@@ -44,21 +44,6 @@ window.addEventListener("load", () => {
         }
     }
 
-    // Desktop Trigger Logic
-    const musicTrigger = document.getElementById("music-trigger");
-    if (musicTrigger) {
-        musicTrigger.addEventListener("click", () => {
-            if (audio) audio.play();
-            musicTrigger.style.display = "none";
-        });
-
-        // Also hide it if audio is already playing? 
-        // Better simplicity: just let the user click it.
-        if (audio && !audio.paused) {
-            musicTrigger.style.display = "none";
-        }
-    }
-
     // Welcome Overlay Logic (Shared)
     const continueBtn = document.getElementById("continue-btn");
     const welcomeOverlay = document.getElementById("welcome-overlay");
