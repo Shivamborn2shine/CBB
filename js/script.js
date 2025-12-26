@@ -3,7 +3,6 @@ window.addEventListener("load", () => {
     const preloader = document.getElementById("preloader");
     const mobileView = document.getElementById("mobile-view");
     const desktopView = document.getElementById("desktop-view");
-    const audio = document.getElementById("bg-music");
     const isMobile = window.innerWidth < 768;
 
     // Fade out preloader
@@ -14,7 +13,8 @@ window.addEventListener("load", () => {
         }, 800);
     }
 
-    // Show appropriate view
+    // Show appropriate view & Select Music
+    let audio;
     if (isMobile) {
         if (mobileView) {
             mobileView.style.display = "block";
@@ -23,8 +23,10 @@ window.addEventListener("load", () => {
                 mobileView.style.opacity = "1";
             }, 50);
         }
+        audio = document.getElementById("bg-music-mobile");
     } else {
         if (desktopView) desktopView.style.display = "block";
+        audio = document.getElementById("bg-music-desktop");
     }
 
     // Attempt autoplay (usually blocked, but we try)
@@ -48,6 +50,14 @@ function openGift() {
     const btnWrapper = document.querySelector(".open-gift-wrapper");
     const cover = document.querySelector(".cover");
     const content = document.getElementById("gift-content");
+
+    // Ensure music plays if it hasn't already (Mobile/Desktop logic)
+    const isMobile = window.innerWidth < 768;
+    const audioId = isMobile ? "bg-music-mobile" : "bg-music-desktop";
+    const audio = document.getElementById(audioId);
+    if (audio && audio.paused) {
+        audio.play().catch(e => console.log("Audio play failed:", e));
+    }
 
     if (btnWrapper) btnWrapper.style.display = "none";
     if (cover) cover.style.display = "none"; // Hide cover to reveal content
