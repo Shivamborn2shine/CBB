@@ -32,12 +32,24 @@
         </div>
     </div>
 
+    <!-- 👋 WELCOME OVERLAY (Global) -->
+    <div id="welcome-overlay">
+        <div class="welcome-content">
+            <p class="welcome-text">Now Finally you reached here!!!<br>Congrats!!!</p>
+            <button id="continue-btn" class="continue-btn">Continue</button>
+        </div>
+    </div>
+
     <!-- 🎄 MOBILE VIEW -->
     <div id="mobile-view" style="display: none; opacity: 0; transition: opacity 1s ease;">
 
         <!-- COVER IMAGE -->
         <div class="cover">
-            <img src="mobile/christmas-cover.webp" alt="Christmas Memory">
+            <div class="sketch-wrapper">
+                <img id="sketch-img" src="mobile/christmas-cover.webp" alt="Christmas Memory"
+                    style="filter: grayscale(100%); transition: filter 2s ease;">
+                <button id="colour-btn" class="colour-overlay-btn" onclick="colourSketch()">🎨 Colour it</button>
+            </div>
             <p class="cover-caption">Same Sketch with Colours</p>
         </div>
 
@@ -90,6 +102,7 @@
 
     <!-- 💻 DESKTOP VIEW -->
     <div id="desktop-view">
+        <button id="music-trigger" class="music-trigger-btn">🎵 Tap for Music</button>
         <div class="canva-wrapper">
             <iframe src="https://www.canva.com/design/DAG8bTK8pEA/luqgG5GRz3tKvMzRBZyJCw/view?embed" loading="lazy"
                 allowfullscreen allow="fullscreen">

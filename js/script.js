@@ -43,27 +43,84 @@ window.addEventListener("load", () => {
             });
         }
     }
+
+    // Desktop Trigger Logic
+    const musicTrigger = document.getElementById("music-trigger");
+    if (musicTrigger) {
+        musicTrigger.addEventListener("click", () => {
+            if (audio) audio.play();
+            musicTrigger.style.display = "none";
+        });
+
+        // Also hide it if audio is already playing? 
+        // Better simplicity: just let the user click it.
+        if (audio && !audio.paused) {
+            musicTrigger.style.display = "none";
+        }
+    }
+
+    // Welcome Overlay Logic (Shared)
+    const continueBtn = document.getElementById("continue-btn");
+    const welcomeOverlay = document.getElementById("welcome-overlay");
+
+    if (continueBtn && welcomeOverlay) {
+        continueBtn.addEventListener("click", () => {
+            // 1. Play Audio (User interaction!)
+            if (audio) {
+                audio.play().catch(e => console.log("Continue play error:", e));
+            }
+
+            // 2. Hide Overlay
+            welcomeOverlay.style.opacity = "0";
+            setTimeout(() => {
+                welcomeOverlay.style.display = "none";
+            }, 500);
+        });
+    }
 });
 
 // Global functions
+function colourSketch() {
+    const sketchImg = document.getElementById("sketch-img");
+    const colourBtn = document.getElementById("colour-btn");
+
+    // 1. Colour the sketch
+    if (sketchImg) {
+        sketchImg.style.filter = "grayscale(0%)";
+    }
+
+    // 2. Hide colour button
+    if (colourBtn) {
+        colourBtn.style.display = "none";
+    }
+
+    // Play music if forced interaction needed on 'Colour' tap as well
+    const isMobile = window.innerWidth < 768;
+    const audioId = isMobile ? "bg-music-mobile" : "bg-music-desktop";
+    const audio = document.getElementById(audioId);
+    if (audio && audio.paused) {
+        audio.play().catch(e => console.log("Audio play failed on colour:", e));
+    }
+}
+
 function openGift() {
     const btnWrapper = document.querySelector(".open-gift-wrapper");
     const cover = document.querySelector(".cover");
     const content = document.getElementById("gift-content");
 
-    // Ensure music plays if it hasn't already (Mobile/Desktop logic)
+    // Ensure music plays if it hasn't already (final fallback)
     const isMobile = window.innerWidth < 768;
     const audioId = isMobile ? "bg-music-mobile" : "bg-music-desktop";
     const audio = document.getElementById(audioId);
     if (audio && audio.paused) {
-        audio.play().catch(e => console.log("Audio play failed:", e));
+        audio.play().catch(e => console.log("Audio play failed on open:", e));
     }
 
+    // Hide everything and show content
     if (btnWrapper) btnWrapper.style.display = "none";
-    if (cover) cover.style.display = "none"; // Hide cover to reveal content
+    if (cover) cover.style.display = "none";
     if (content) {
         content.style.display = "block";
-        // Optional: scroll to top if needed, but since we hide button, it should be at top
         window.scrollTo({ top: 0, behavior: "smooth" });
     }
 }
