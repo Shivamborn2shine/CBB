@@ -1,14 +1,49 @@
-const isMobile = window.innerWidth < 768;
+// Preloading & Audio Logic
+window.addEventListener("load", () => {
+    const preloader = document.getElementById("preloader");
+    const mobileView = document.getElementById("mobile-view");
+    const desktopView = document.getElementById("desktop-view");
+    const audio = document.getElementById("bg-music");
+    const isMobile = window.innerWidth < 768;
 
-const mobileView = document.getElementById("mobile-view");
-const desktopView = document.getElementById("desktop-view");
+    // Fade out preloader
+    if (preloader) {
+        preloader.style.opacity = "0";
+        setTimeout(() => {
+            preloader.style.display = "none";
+        }, 800);
+    }
 
-if (isMobile) {
-    mobileView.style.display = "block";
-} else {
-    desktopView.style.display = "block";
-}
+    // Show appropriate view
+    if (isMobile) {
+        if (mobileView) {
+            mobileView.style.display = "block";
+            // Small delay to allow display:block to apply before opacity transition
+            setTimeout(() => {
+                mobileView.style.opacity = "1";
+            }, 50);
+        }
+    } else {
+        if (desktopView) desktopView.style.display = "block";
+    }
 
+    // Attempt autoplay (usually blocked, but we try)
+    if (audio) {
+        audio.volume = 0.5;
+        const playPromise = audio.play();
+        if (playPromise !== undefined) {
+            playPromise.catch(error => {
+                console.log("Autoplay blocked. Waiting for interaction.");
+                // Fallback: Play on first touch/click
+                document.body.addEventListener('click', () => {
+                    audio.play();
+                }, { once: true });
+            });
+        }
+    }
+});
+
+// Global functions
 function openGift() {
     const btnWrapper = document.querySelector(".open-gift-wrapper");
     const cover = document.querySelector(".cover");

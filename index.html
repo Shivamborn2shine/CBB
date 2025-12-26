@@ -15,8 +15,23 @@
 
 <body>
 
+    <!-- 🎵 BACKGROUND MUSIC -->
+    <!-- Placeholder: waiting for user file 'music.mp3' in mobile folder -->
+    <audio id="bg-music" loop>
+        <source src="mobile/music.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <!-- ⏳ PRELOADER -->
+    <div id="preloader">
+        <div class="loader-content">
+            <div class="spinner"></div>
+            <p>Loading Gift...</p>
+        </div>
+    </div>
+
     <!-- 🎄 MOBILE VIEW -->
-    <div id="mobile-view">
+    <div id="mobile-view" style="display: none; opacity: 0; transition: opacity 1s ease;">
 
         <!-- COVER IMAGE -->
         <div class="cover">
