@@ -13,7 +13,7 @@ body {
 /* ---------- MOBILE CHRISTMAS EXPERIENCE ---------- */
 #mobile-view {
     display: none;
-    background-image: url('../mobile/christmas-bg.png');
+    background-image: url('../mobile/christmas-bg.webp');
     background-size: cover;
     background-position: center;
     background-color: #ffffff;
